@@ -1,0 +1,30 @@
+block javascript injection attack
+insensitive to popup element mouseup event.
+make the popup style insensitive to page's style
+
+
+videos api --
+	take into account multiple videos
+	
+translatio api--
+
+audio --
+
+
+Wikipedia --
+
+news api -- 
+
+
+image api --
+	https://www.flickr.com/services/api/
+	https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=Paris%20Hilton
+	https://api.imgur.com/
+	http://pixabay.com/api/docs/
+	http://www.fotolia.com/Services/API/Rest/Method/getSearchResults#a01
+	getty images
+	
+-------------------------------------------------urls to browser------------------------------------------------
+http://www.publicapis.com/
+google's custom search engine
+https://duckduckgo.com/api

@@ -1,0 +1,45 @@
+{
+	"manifest_version":2,
+	"name":"Meta Search",
+	"version":"0.0.1",
+	"permissions": [ 
+		//"background", 
+		"tabs",
+		"https://*/*",
+		"http://*/*"		
+	],
+	"description":"Meta search on a website",
+	"icons":{
+	},
+	
+	"browser_action":{
+		"default_title":"MSE",
+		"default_popup":"popup.html"
+		
+	},
+	
+	"content_scripts":[{
+		"js":[
+			"js/app/content.js",
+			"js/lib/jquery-1.11.0.js"		
+		],
+		"matches":[
+			"https://*/*",
+			"http://*/*", 
+			"file:///*/*"				
+		],
+		"run_at":"document_end"
+	}],
+	
+	"background": {
+		"scripts": [
+			//"background.js"
+        ]
+		
+	},
+            
+	"content_security_policy": "script-src 'self' https://mymemory.translated.net; object-src 'self'"
+  
+  	//"web_accessible_resources": ["css/AR.css"]
+	
+}
