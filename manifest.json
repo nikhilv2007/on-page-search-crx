@@ -1,12 +1,11 @@
 {
 	"manifest_version":2,
-	"name":"Meta Search",
+	"name":"Bubble Search",
 	"version":"0.0.1",
 	"permissions": [ 
 		//"background", 
 		"tabs",
-		"https://*/*",
-		"http://*/*"		
+		"<all_urls>"		
 	],
 	"description":"Meta search on a website",
 	"icons":{
@@ -24,9 +23,7 @@
 			"js/lib/jquery-1.11.0.js"		
 		],
 		"matches":[
-			"https://*/*",
-			"http://*/*", 
-			"file:///*/*"				
+			"<all_urls>"				
 		],
 		"run_at":"document_end"
 	}],

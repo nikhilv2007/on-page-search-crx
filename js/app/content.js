@@ -12,30 +12,34 @@ function checkSelectionChanged() {
     	//console.log("now ->"+nowSelected);
     } 
     if(nowSelected != '' && nowSelected != selectedText) {
-    	console.log(nowSelected);
-      	console.log(this);       
+    	//console.log(nowSelected);
+      	//console.log(this);       
       	selectedText = nowSelected;
       	//if popup already exists, close it
-      	if(document.getElementById('floatDiv')){
+      	if(document.getElementById('bubbleSearch-floatDiv')){
       		removePopup();
       	}
       	
       	var createDiv = document.createElement('div');
-		createDiv.setAttribute('id','floatDiv');
+		createDiv.setAttribute('id','bubbleSearch-floatDiv');
 		createDiv.setAttribute('style',"z-index:199999999999; border:2px outset black; border-radius:5px; padding:10px; display: block; right:0; position:fixed; background-color:white; width:25%; height:75%; box-shadow: 0 2px 5px 0; overflow:auto;");
-		createDiv.innerHTML = "Loading.." +nowSelected;
-				
+						
 		document.body.insertBefore(createDiv, document.body.childNodes[0]);
 		//document.body.parentNode.appendChild(createDiv);
-			
+
+        var statusMessage = document.createElement('div');
+        statusMessage.setAttribute('id','bubbleSearch-statusMessage');
+        statusMessage.innerText = "Loading for " +nowSelected +" ..";
+        document.getElementById('bubbleSearch-floatDiv').appendChild(statusMessage);
+        
 		var closeButton = document.createElement('button');
 		closeButton.setAttribute('id','closeElem');
 		closeButton.innerHTML = 'x';
 		closeButton.setAttribute('style',"position:absolute; right:5px; cursor: pointer; top:5px; border:0px; padding:0px 2px; border-radius:100%; color:white; background-color:black");
-		document.getElementById('floatDiv').appendChild(closeButton);
+		document.getElementById('bubbleSearch-floatDiv').appendChild(closeButton);
 		document.getElementById('closeElem').addEventListener('click', removePopup);
 		
-		callVideoApi(nowSelected);
+		//callVideoApi(nowSelected);          // Deprecated API
 		
 		callDuckDuckGoApi(nowSelected);
     }
@@ -49,7 +53,7 @@ function htmlencode(str) {
 
 function removePopup(){
 	//console.log("inside remove popup");
-	var elem = document.getElementById('floatDiv');
+	var elem = document.getElementById('bubbleSearch-floatDiv');
     elem.parentNode.removeChild(elem);
 }
 
@@ -98,7 +102,7 @@ function callVideoApi(text){
 		    	if(data.data.hasOwnProperty('items')){
 		    		var videoElement = document.createElement('embed');
 			    	videoElement.setAttribute('src', "https://www.youtube.com/v/" +data.data.items[0].id);
-			    	document.getElementById('floatDiv').appendChild(videoElement);
+			    	document.getElementById('bubbleSearch-floatDiv').appendChild(videoElement);
 		    	}		    	
 		    },
 		    error: function(xhr,error,code) {
@@ -121,12 +125,14 @@ function callDuckDuckGoApi(text){
 	            // Calls Success. If data found on the service then it would be inside "DATA" variable
 		    	console.log(data);
 		    	
+                document.getElementById('bubbleSearch-statusMessage').innerText = "";
+                
 		    	var duck2go = document.createElement('div');
 				duck2go.setAttribute('id','duckDuckGo');
 				duck2go.innerHTML = "Powered by DuckDuckGo";
-				document.getElementById('floatDiv').appendChild(duck2go);
+				document.getElementById('bubbleSearch-floatDiv').appendChild(duck2go);
 						    			    	
-		    	if(data.hasOwnProperty('AbstractText')){
+		    	if(data.hasOwnProperty('AbstractText') && data.AbstractText != ''){
 		    		var abstractText = document.createElement('div');
 		    		if (data.AbstractText) {
 		    			abstractText.innerHTML = data.AbstractText;
@@ -136,6 +142,11 @@ function callDuckDuckGoApi(text){
 		    		};
 			    	document.getElementById('duckDuckGo').appendChild(abstractText);
 		    	}
+                else{
+                    var elem = document.getElementById('duckDuckGo');
+                    elem.parentNode.removeChild(elem);
+                    document.getElementById('bubbleSearch-statusMessage').innerText = "No results"
+                }
 		    			    		    	
 		    },
 		    error: function(xhr,error,code) {
